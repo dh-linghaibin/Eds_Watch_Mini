@@ -21,6 +21,7 @@
 #define LED_G   PC_ODR_ODR4
 #define LED_B   PC_ODR_ODR3 
 
+#define LED_MODE PB_ODR_ODR1
 /**********************************************函数定义***************************************************** 
 * 函数名称: void LedInit(void) 
 * 输入参数: void 
@@ -45,7 +46,8 @@ void LedInit(void) {
     PC_DDR_DDR4 = 1;
     PC_CR1_C14 = 1;
     PC_CR2_C22 = 1;
-    LedSetPower(2);
+    LedSetPower(0);//关闭led
+    LED_MODE = 1;
 }
 /**********************************************函数定义***************************************************** 
 * 函数名称: void LedSetMode(u8 data) 
@@ -69,16 +71,21 @@ void LedSetMode(u8 data) {
 void LedSetPower(u8 cmd) { 
     switch( cmd ) {
         case 0:
-        LED_R = 0;
+        LED_R = 1;
         LED_G = 1;
         LED_B = 1;
         break;
         case 1:
+        LED_R = 0;
+        LED_G = 1;
+        LED_B = 1;
+        break;
+        case 2:
         LED_R = 1;
         LED_G = 0;
         LED_B = 1;
         break;
-        case 2:
+        case 3:
         LED_R = 1;
         LED_G = 1;
         LED_B = 0;
@@ -87,6 +94,67 @@ void LedSetPower(u8 cmd) {
         break;
     }
 }
+/***********************************************变量声明*****************************************************
+* 功    能: 模式LED闪烁次数标志位  
+* 作    者: by lhb_steven
+* 日    期: 2016/3/17
+************************************************************************************************************/ 
+static u8 led_mode_flag = 0;
+/**********************************************函数定义***************************************************** 
+* 函数名称: void LedSetModeFlicker(u8 count) 
+* 输入参数: u8 count 
+* 返回参数: void  
+* 功    能: 设置状态灯闪烁  count闪烁几次  
+* 作    者: by lhb_steven
+* 日    期: 2016/3/17
+************************************************************************************************************/ 
+void LedSetModeFlicker(u8 count) { 
+    led_mode_flag = count;
+}
+/***********************************************变量声明*****************************************************
+* 功    能: 警示灯闪烁次数状态标志位  
+* 作    者: by lhb_steven
+* 日    期: 2016/3/17
+************************************************************************************************************/ 
+static u8 led_power_flag = 0;
+/**********************************************函数定义***************************************************** 
+* 函数名称: void LedTimeService(void) 
+* 输入参数: void 
+* 返回参数: void  
+* 功    能: LED动画的服务函数  
+* 作    者: by lhb_steven
+* 日    期: 2016/3/16
+************************************************************************************************************/ 
+void LedTimeService(void) { 
+    static u16 time_count = 0;
+    if(time_count < 20000) {
+        time_count++;
+    } else {
+        time_count = 0;
+        if(led_mode_flag > 0) {
+            static u8 bit = 0;            
+            if(bit == 0) {
+                bit = 1;
+                led_mode_flag--;
+            } else {
+                bit = 0;
+            }
+            LED_MODE = bit;
+        }
+        if(led_power_flag > 0) {
+            static u8 bit = 0;
+            if(bit == 0) {
+                bit = 1;
+                led_power_flag--;
+            } else {
+                bit = 0;
+            }
+            LedSetPower(bit);
+        }
+    }
+}
+
+
 
 
 

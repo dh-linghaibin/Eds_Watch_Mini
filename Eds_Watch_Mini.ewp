@@ -1587,6 +1587,9 @@
     <name>$PROJ_DIR$\main.c</name>
   </file>
   <file>
+    <name>$PROJ_DIR$\Menu.c</name>
+  </file>
+  <file>
     <name>$PROJ_DIR$\Sys.c</name>
   </file>
 </project>
