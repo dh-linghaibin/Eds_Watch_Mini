@@ -1592,6 +1592,9 @@
   <file>
     <name>$PROJ_DIR$\Sys.c</name>
   </file>
+  <file>
+    <name>$PROJ_DIR$\Time.c</name>
+  </file>
 </project>
 
 

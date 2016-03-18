@@ -16,9 +16,10 @@
 * 历史信息：
 *******************************************************************************/
 #include "buntu.h"
+#include "Delay.h"
 
-#define BUNTU_REAR1     PB_IDR_IDR4
-#define BUNTU_REAR2     PB_IDR_IDR5
+#define BUNTU_REAR1     PB_IDR_IDR5
+#define BUNTU_REAR2     PB_IDR_IDR4
 #define BUNTU_BEHIND1   PB_IDR_IDR7
 #define BUNTU_BEHIND2   PB_IDR_IDR6
 #define BUNTU_MODE      PB_IDR_IDR0
@@ -82,16 +83,20 @@ u8 BuntuRead(void) {
             }
             if(count1 == 2000) {
                 //长按进入
-                return 0x01;
+                if(count2 > 1500) {//两颗按键要同时按下才有效
+                    if(mode_count == 0) {//未进入一起按下的模式
+                        return 0x01;
+                    }
+                }
             }
         }
     } else {
-        if( (count1 > 100)&&(count1 < 1500) ) {
+        if( (count1 > 50)&&(count1 < 1500) ) {
             count1 = 0;
             //return 0x11;
-        } else if(count1 > 1500) {
+        } else if(count1 > 1500) {//只要有一颗松开就结束
             count1 = 0;
-            //return 0x21;
+            return 0x21;
         }
         count_small1 = 0;
         count1 = 0;
@@ -107,19 +112,26 @@ u8 BuntuRead(void) {
             }
             if(count2 == 2000) {
                 //长按进入
-                return 0x02;
+                if(count1 == 0) {//小的按键不能按下
+                    if(mode_count == 0) {//未进入一起按下的模式
+                        return 0x02;    
+                    }
+                }
             }
         }
     } else {
         //组合 后拨 按键 检测
         if(mode_count == 0) {
-            if( ( (count1 > 100)&&(count1 < 1500) ) && ( (count2 > 100)&&(count2 < 1500) ) ) {
+            if( ( (count1 > 50)&&(count1 < 1500) ) && ( (count2 > 50)&&(count2 < 1500) ) ) {
                 count1 = 0;
                 count2 = 0;
                 return 0x11;
-            } else if( (count2 > 100)&&(count2 < 1500) ) {
+            } else if( (count2 > 50)&&(count2 < 1500) ) {//后拨快速放开
                 count2 = 0;
                 return 0x12;
+            } else if(count2 > 2000) {
+                count2 = 0;
+                return 0x22;
             }
         }
         count_small2 = 0;
@@ -141,7 +153,7 @@ u8 BuntuRead(void) {
         }
     } else {
         if(mode_count == 0) {
-            if( (count3 > 100)&&(count3 < 1500) ) {
+            if( (count3 > 50)&&(count3 < 1500) ) {
                 count3 = 0;
                 return 0x13;
             } else if(count3 > 1500) {
@@ -195,7 +207,7 @@ u8 BuntuRead(void) {
         count5 = 0;
     }
     //组合按键
-    if( (count1 > 1500) && (count2 > 1500) ) {//两颗按键同时按下
+    if( (count3 > 1500) && (count2 > 1500) ) {//两颗按键同时按下
         if(mode_count < 200) {
             mode_count++;
         } else {
@@ -209,9 +221,159 @@ u8 BuntuRead(void) {
     }
     return 0x00;
 }
+/**********************************************函数定义***************************************************** 
+* 函数名称: void BuntuSleep(void) 
+* 输入参数: void 
+* 返回参数: void  
+* 功    能: 睡眠省电  
+* 作    者: by lhb_steven
+* 日    期: 2016/3/18
+************************************************************************************************************/ 
+void BuntuSleep(void) { 
+    PB_CR2_C24 = 1;
+    PB_CR2_C25 = 1;
+    PB_CR2_C26 = 1;
+    PB_CR2_C27 = 1;
+    PB_CR2_C20 = 1;
+    DelayMs(100);
+    MCUSLEEP
+}
+/**********************************************函数定义***************************************************** 
+* 函数名称: void BuntuOpen(void) 
+* 输入参数: void 
+* 返回参数: void  
+* 功    能: 退出休眠状态  
+* 作    者: by lhb_steven
+* 日    期: 2016/3/18
+************************************************************************************************************/ 
+void BuntuOpen(void) { 
+    PB_CR2_C24 = 0;
+    PB_CR2_C25 = 0;
+    PB_CR2_C26 = 0;
+    PB_CR2_C27 = 0;
+    PB_CR2_C20 = 0;
+    EXTI_SR1 = 0xff;
+}
 
+#pragma vector=8
+__interrupt void EXTIB6_IRQHandler(void)
+{
+    INTOFF
+    BuntuOpen();
+    INTEN
+    return;
+}
 
+#pragma vector=13
+__interrupt void EXTIB1_IRQHandler(void)
+{
+    INTOFF
+    BuntuOpen();
+    INTEN
+    return;
+}
+#pragma vector=14
+__interrupt void EXTIB2_IRQHandler(void)
+{
+    INTOFF
+    BuntuOpen();
+    INTEN
+    return;
+}
+#pragma vector=15
+__interrupt void EXTIB3_IRQHandler(void)
+{
+    INTOFF
+    BuntuOpen();
+    INTEN
+    return;
+}
+#pragma vector=16
+__interrupt void EXTIB4_IRQHandler(void)
+{
+    INTOFF
+    BuntuOpen();
+    INTEN
+    return;
+}
+#pragma vector=17
+__interrupt void EXTIB5_IRQHandler(void)
+{
+    INTOFF
+    BuntuOpen();
+    INTEN
+    return;
+}
 
+#pragma vector=9
+__interrupt void EXTIB7_IRQHandler(void)
+{
+    INTOFF
+    BuntuOpen();
+    INTEN
+    return;
+}
 
+#pragma vector=10
+__interrupt void EXTIB8_IRQHandler(void)
+{
+    INTOFF
+    BuntuOpen();
+    INTEN
+    return;
+}
 
+#pragma vector=11
+__interrupt void EXTIB9_IRQHandler(void)
+{
+    INTOFF
+    BuntuOpen();
+    INTEN
+    return;
+}
+
+#pragma vector=18
+__interrupt void EXTIB10_IRQHandler(void)
+{
+    INTOFF
+    BuntuOpen();
+    INTEN
+    return;
+}
+
+#pragma vector=19
+__interrupt void EXTIB11_IRQHandler(void)
+{
+    INTOFF
+    BuntuOpen();
+    INTEN
+    return;
+}
+
+#pragma vector=20
+__interrupt void EXTIB12_IRQHandler(void)
+{
+    INTOFF
+    BuntuOpen();
+    INTEN
+    return;
+}
+
+#pragma vector=21
+__interrupt void EXTIB13_IRQHandler(void)
+{
+    INTOFF
+    BuntuOpen();
+    INTEN
+    return;
+}
+
+#pragma vector=22
+__interrupt void EXTIB14_IRQHandler(void)
+{
+    INTOFF
+    BuntuOpen();
+    INTEN
+    return;
+}
 

@@ -11,8 +11,8 @@ void ComInit(void) {
     PA_CR2_C22 = 1;
     
     //外部中断初始化
-	EXTI_CR1 &= ~BIT(0);//开启PA口中断
-	EXTI_CR1 &= ~BIT(1);
+//	EXTI_CR1 &= ~BIT(2);//开启PA口中断
+//	EXTI_CR1 &= ~BIT(3);
 }
 
 #define COM_BIT_OUT 	PA_ODR_ODR2
@@ -163,13 +163,14 @@ void ComSendCmdWatch(u8 cmd,u8 par1,u8 par2,u8 par3) {
     INTEN
 }
 
-#pragma vector=7
-__interrupt void EXTI_PORTA_IRQHandler(void)
+#pragma vector=12
+__interrupt void EXTI2_IRQHandler(void)
 {
     INTOFF
     if(ComRead(com_date) == 0x88) {
         rs_ok = 0x80;
     }
+    EXTI_SR1 = 0xff;
     INTEN
 }
 
