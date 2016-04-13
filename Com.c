@@ -11,8 +11,8 @@ void ComInit(void) {
     PA_CR2_C22 = 1;
     
     //外部中断初始化
-//	EXTI_CR1 &= ~BIT(2);//开启PA口中断
-//	EXTI_CR1 &= ~BIT(3);
+	EXTI_CR1 &= ~BIT(2);//开启PA口中断
+	EXTI_CR1 &= ~BIT(3);
 }
 
 #define COM_BIT_OUT 	PA_ODR_ODR2

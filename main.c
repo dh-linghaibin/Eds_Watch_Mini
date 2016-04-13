@@ -32,7 +32,7 @@ int main( void )
     TimerInit();
     INTEN
     while(1) {
-        if(TimerGetSec() > 5) {
+        if(TimerGetSec() > 50) {
             TimerSetSec(0);
             BuntuSleep();
         }
@@ -60,8 +60,14 @@ int main( void )
                 }
                 break;
                 case dce_powe:
-                    LedSetMode(ComGetData(1)+1);
-                    LedSetPowerFlag(1);
+                    if(MenuGetMode() == 2) {
+                    
+                    } else if(MenuGetMode() == 3) {
+                    
+                    } else {
+                        LedSetMode(ComGetData(1)+1);
+                        LedSetPowerFlag(1);
+                    }
                 break;
             }
         }

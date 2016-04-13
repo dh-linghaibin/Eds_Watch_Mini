@@ -17,12 +17,123 @@
 *******************************************************************************/
 #include "buntu.h"
 #include "Delay.h"
+#include "Time.h"
 
 #define BUNTU_REAR1     PB_IDR_IDR5
 #define BUNTU_REAR2     PB_IDR_IDR4
 #define BUNTU_BEHIND1   PB_IDR_IDR7
 #define BUNTU_BEHIND2   PB_IDR_IDR6
 #define BUNTU_MODE      PB_IDR_IDR0
+
+
+typedef unsigned char     uint8_t;
+typedef unsigned short    uint16_t;
+
+typedef enum
+{
+  EXTI_Pin_0 = (uint8_t)0x00, /*!< GPIO Pin 0 */
+  EXTI_Pin_1 = (uint8_t)0x02, /*!< GPIO Pin 1 */
+  EXTI_Pin_2 = (uint8_t)0x04, /*!< GPIO Pin 2 */
+  EXTI_Pin_3 = (uint8_t)0x06, /*!< GPIO Pin 3 */
+  EXTI_Pin_4 = (uint8_t)0x10, /*!< GPIO Pin 4 */
+  EXTI_Pin_5 = (uint8_t)0x12, /*!< GPIO Pin 5 */
+  EXTI_Pin_6 = (uint8_t)0x14, /*!< GPIO Pin 6 */
+  EXTI_Pin_7 = (uint8_t)0x16  /*!< GPIO Pin 7 */
+} EXTI_Pin_TypeDef;
+
+typedef enum
+{
+  EXTI_Trigger_Falling_Low    = (uint8_t)0x00, /*!< Interrupt on Falling edge and Low level */
+  EXTI_Trigger_Rising         = (uint8_t)0x01, /*!< Interrupt on Rising edge only */
+  EXTI_Trigger_Falling        = (uint8_t)0x02, /*!< Interrupt on Falling edge only */
+  EXTI_Trigger_Rising_Falling = (uint8_t)0x03  /*!< Interrupt on Rising and Falling edges */
+} EXTI_Trigger_TypeDef;
+
+
+void EXTI_SetPinSensitivity(EXTI_Pin_TypeDef EXTI_Pin, EXTI_Trigger_TypeDef EXTI_Trigger)
+{
+
+  /* Check function parameters */
+ // assert_param(IS_EXTI_PINNUM(EXTI_Pin));
+  //assert_param(IS_EXTI_TRIGGER(EXTI_Trigger));
+
+  /* Clear port sensitivity bits */
+  switch (EXTI_Pin)
+  {
+    case EXTI_Pin_0:
+      EXTI_CR1 &=  (uint8_t)(~0x03);
+      EXTI_CR1 |= (uint8_t)((uint8_t)(EXTI_Trigger) << EXTI_Pin);
+      break;
+    case EXTI_Pin_1:
+      EXTI_CR1 &=  (uint8_t)(~0x0C);
+      EXTI_CR1 |= (uint8_t)((uint8_t)(EXTI_Trigger) << EXTI_Pin);
+      break;
+    case EXTI_Pin_2:
+      EXTI_CR1 &=  (uint8_t)(~0x30);
+      EXTI_CR1 |= (uint8_t)((uint8_t)(EXTI_Trigger) << EXTI_Pin);
+      break;
+    case EXTI_Pin_3:
+      EXTI_CR1 &=  (uint8_t)(~0xC0);
+      EXTI_CR1 |= (uint8_t)((uint8_t)(EXTI_Trigger) << EXTI_Pin);
+      break;
+    case EXTI_Pin_4:
+      EXTI_CR2 &=  (uint8_t)(~0x03);
+      EXTI_CR2 |= (uint8_t)((uint8_t)(EXTI_Trigger) << ((uint8_t)EXTI_Pin & (uint8_t)0xEF));
+      break;
+    case EXTI_Pin_5:
+      EXTI_CR2 &=  (uint8_t)(~0x0C);
+      EXTI_CR2 |= (uint8_t)((uint8_t)(EXTI_Trigger) << ((uint8_t)EXTI_Pin & (uint8_t)0xEF));
+      break;
+    case EXTI_Pin_6:
+      EXTI_CR2 &=  (uint8_t)(~0x30);
+      EXTI_CR2 |= (uint8_t)((uint8_t)(EXTI_Trigger) << ((uint8_t)EXTI_Pin & (uint8_t)0xEF));
+      break;
+    case EXTI_Pin_7:
+      EXTI_CR2 &=  (uint8_t)(~0xC0);
+      EXTI_CR2 |= (uint8_t)((uint8_t)(EXTI_Trigger) << ((uint8_t)EXTI_Pin & (uint8_t)0xEF));
+      break;
+    default:
+      break;
+  }
+}
+#define assert_param(expr) ((void)0)
+typedef enum
+{
+  EXTI_IT_Pin0    = (uint16_t)0x0001, /*!< GPIO Pin pos 0 */
+  EXTI_IT_Pin1    = (uint16_t)0x0002, /*!< GPIO Pin pos 1 */
+  EXTI_IT_Pin2    = (uint16_t)0x0004, /*!< GPIO Pin pos 2 */
+  EXTI_IT_Pin3    = (uint16_t)0x0008, /*!< GPIO Pin pos 3 */
+  EXTI_IT_Pin4    = (uint16_t)0x0010, /*!< GPIO Pin pos 4 */
+  EXTI_IT_Pin5    = (uint16_t)0x0020, /*!< GPIO Pin pos 5 */
+  EXTI_IT_Pin6    = (uint16_t)0x0040, /*!< GPIO Pin pos 6 */
+  EXTI_IT_Pin7    = (uint16_t)0x0080, /*!< GPIO Pin pos 7 */
+  EXTI_IT_PortB   = (uint16_t)0x0101, /*!< GPIO Port B    */
+  EXTI_IT_PortD   = (uint16_t)0x0102, /*!< GPIO Port D    */
+  EXTI_IT_PortE   = (uint16_t)0x0104, /*!< GPIO Port E    */
+  EXTI_IT_PortF   = (uint16_t)0x0108, /*!< GPIO Port F    */
+  EXTI_IT_PortG   = (uint16_t)0x0110, /*!< GPIO Port G    */
+  EXTI_IT_PortH   = (uint16_t)0x0120  /*!< GPIO Port H    */
+} EXTI_IT_TypeDef;
+
+void EXTI_ClearITPendingBit(EXTI_IT_TypeDef EXTI_IT)
+{
+  uint16_t tempvalue = 0;
+
+  /* Check function parameters */
+  assert_param(IS_EXTI_ITPENDINGBIT(EXTI_IT));
+
+  tempvalue = ((uint16_t)EXTI_IT & (uint16_t)0xFF00);
+
+  if ( tempvalue == 0x0100)
+  {
+    EXTI_SR2 = (uint8_t)((uint16_t)EXTI_IT & (uint16_t)0x00FF);
+  }
+  else
+  {
+    EXTI_SR1 = (uint8_t) (EXTI_IT);
+  }
+}
+
 /**********************************************函数定义***************************************************** 
 * 函数名称: void BuntuInit(void) 
 * 输入参数: void 
@@ -33,24 +144,30 @@
 ************************************************************************************************************/ 
 void BuntuInit(void) { 
     PB_DDR_DDR4 = 0; //前拨减
-    PB_CR1_C14 = 0;
+    PB_CR1_C14 = 1;
     PB_CR2_C24 = 0;
     
     PB_DDR_DDR5 = 0;//前拨加
-    PB_CR1_C15 = 0;
+    PB_CR1_C15 = 1;
     PB_CR2_C25 = 0;
     
     PB_DDR_DDR6 = 0;//后拨减
-    PB_CR1_C16 = 0;
+    PB_CR1_C16 = 1;
     PB_CR2_C26 = 0;
     
     PB_DDR_DDR7 = 0;//后拨加
-    PB_CR1_C17 = 0;
+    PB_CR1_C17 = 1;
     PB_CR2_C27 = 0;
     
     PB_DDR_DDR0 = 0;//按键
-    PB_CR1_C10 = 0;
+    PB_CR1_C10 = 1;
     PB_CR2_C20 = 0;
+    
+    EXTI_SetPinSensitivity(EXTI_Pin_0,EXTI_Trigger_Falling); 
+    EXTI_SetPinSensitivity(EXTI_Pin_4,EXTI_Trigger_Falling); 
+    EXTI_SetPinSensitivity(EXTI_Pin_5,EXTI_Trigger_Falling); 
+    EXTI_SetPinSensitivity(EXTI_Pin_6,EXTI_Trigger_Falling);
+    EXTI_SetPinSensitivity(EXTI_Pin_7,EXTI_Trigger_Falling); 
 }
 
 /**********************************************函数定义***************************************************** 
@@ -74,7 +191,7 @@ u8 BuntuRead(void) {
     static u8 count_small5 = 0;
     static u8 mode_count = 0;//模式
     if(BUNTU_REAR1 == 0) {//后拨按钮1
-        if(count_small1 < 100) {
+        if(count_small1 < 30) {
             count_small1++;
         } else {
             count_small1 = 0;
@@ -103,7 +220,7 @@ u8 BuntuRead(void) {
     }
     
     if(BUNTU_REAR2 == 0) {//后拨按钮2   
-        if(count_small2 < 100) {
+        if(count_small2 < 30) {
             count_small2++;
         } else {
             count_small2 = 0;
@@ -139,7 +256,7 @@ u8 BuntuRead(void) {
     }
     
     if(BUNTU_BEHIND1 == 0) {//前拨按钮1
-        if(count_small3 < 100) {
+        if(count_small3 < 30) {
             count_small3++;
         } else {
             count_small3 = 0;
@@ -166,7 +283,7 @@ u8 BuntuRead(void) {
     } 
     
     if(BUNTU_BEHIND2 == 0) {//前拨按钮2
-        if(count_small4 < 100) {
+        if(count_small4 < 30) {
             count_small4++;
         } else {
             count_small4 = 0;
@@ -184,7 +301,7 @@ u8 BuntuRead(void) {
     }
     
     if(BUNTU_MODE == 0) {//模式按键
-        if(count_small5 < 100) {
+        if(count_small5 < 30) {
             count_small5++;
         } else {
             count_small5 = 0;
@@ -210,6 +327,7 @@ u8 BuntuRead(void) {
     if( (count3 > 1500) && (count2 > 1500) ) {//两颗按键同时按下
         if(mode_count < 200) {
             mode_count++;
+            //TimerSetSec(0);//test
         } else {
             return 0x30;
         }
@@ -255,125 +373,177 @@ void BuntuOpen(void) {
     EXTI_SR1 = 0xff;
 }
 
-#pragma vector=8
-__interrupt void EXTIB6_IRQHandler(void)
-{
-    INTOFF
-    BuntuOpen();
-    INTEN
-    return;
-}
-
-#pragma vector=13
-__interrupt void EXTIB1_IRQHandler(void)
-{
-    INTOFF
-    BuntuOpen();
-    INTEN
-    return;
-}
-#pragma vector=14
-__interrupt void EXTIB2_IRQHandler(void)
-{
-    INTOFF
-    BuntuOpen();
-    INTEN
-    return;
-}
-#pragma vector=15
-__interrupt void EXTIB3_IRQHandler(void)
-{
-    INTOFF
-    BuntuOpen();
-    INTEN
-    return;
-}
-#pragma vector=16
-__interrupt void EXTIB4_IRQHandler(void)
-{
-    INTOFF
-    BuntuOpen();
-    INTEN
-    return;
-}
-#pragma vector=17
-__interrupt void EXTIB5_IRQHandler(void)
-{
-    INTOFF
-    BuntuOpen();
-    INTEN
-    return;
-}
-
-#pragma vector=9
-__interrupt void EXTIB7_IRQHandler(void)
-{
-    INTOFF
-    BuntuOpen();
-    INTEN
-    return;
-}
-
 #pragma vector=10
-__interrupt void EXTIB8_IRQHandler(void)
+__interrupt void EXTI0_IRQHandler(void)
 {
     INTOFF
+    EXTI_ClearITPendingBit(EXTI_IT_Pin0);
     BuntuOpen();
     INTEN
     return;
 }
 
-#pragma vector=11
-__interrupt void EXTIB9_IRQHandler(void)
+#pragma vector=14
+__interrupt void EXTI4_IRQHandler(void)
 {
     INTOFF
+    EXTI_ClearITPendingBit(EXTI_IT_Pin4);
     BuntuOpen();
     INTEN
     return;
 }
 
-#pragma vector=18
-__interrupt void EXTIB10_IRQHandler(void)
+
+#pragma vector=15
+__interrupt void EXTI5_IRQHandler(void)
 {
     INTOFF
+    EXTI_ClearITPendingBit(EXTI_IT_Pin5);
     BuntuOpen();
     INTEN
     return;
 }
 
-#pragma vector=19
-__interrupt void EXTIB11_IRQHandler(void)
+#pragma vector=16
+__interrupt void EXTI6_IRQHandler(void)
 {
     INTOFF
+    EXTI_ClearITPendingBit(EXTI_IT_Pin6);
     BuntuOpen();
     INTEN
     return;
 }
 
-#pragma vector=20
-__interrupt void EXTIB12_IRQHandler(void)
+#pragma vector=17
+__interrupt void EXTI7_IRQHandler(void)
 {
     INTOFF
+    EXTI_ClearITPendingBit(EXTI_IT_Pin7);
     BuntuOpen();
     INTEN
     return;
 }
 
-#pragma vector=21
-__interrupt void EXTIB13_IRQHandler(void)
-{
-    INTOFF
-    BuntuOpen();
-    INTEN
-    return;
-}
 
-#pragma vector=22
-__interrupt void EXTIB14_IRQHandler(void)
-{
-    INTOFF
-    BuntuOpen();
-    INTEN
-    return;
-}
+//#pragma vector=8
+//__interrupt void EXTIB6_IRQHandler(void)
+//{
+//    INTOFF
+//    BuntuOpen();
+//    INTEN
+//    return;
+//}
+//
+//#pragma vector=13
+//__interrupt void EXTIB1_IRQHandler(void)
+//{
+//    INTOFF
+//    BuntuOpen();
+//    INTEN
+//    return;
+//}
+//#pragma vector=14
+//__interrupt void EXTIB2_IRQHandler(void)
+//{
+//    INTOFF
+//    BuntuOpen();
+//    INTEN
+//    return;
+//}
+//#pragma vector=15
+//__interrupt void EXTIB3_IRQHandler(void)
+//{
+//    INTOFF
+//    BuntuOpen();
+//    INTEN
+//    return;
+//}
+//#pragma vector=16
+//__interrupt void EXTIB4_IRQHandler(void)
+//{
+//    INTOFF
+//    BuntuOpen();
+//    INTEN
+//    return;
+//}
+//#pragma vector=17
+//__interrupt void EXTIB5_IRQHandler(void)
+//{
+//    INTOFF
+//    BuntuOpen();
+//    INTEN
+//    return;
+//}
+//
+//#pragma vector=9
+//__interrupt void EXTIB7_IRQHandler(void)
+//{
+//    INTOFF
+//    BuntuOpen();
+//    INTEN
+//    return;
+//}
+//
+//#pragma vector=10
+//__interrupt void EXTIB8_IRQHandler(void)
+//{
+//    INTOFF
+//    BuntuOpen();
+//    INTEN
+//    return;
+//}
+//
+//#pragma vector=11
+//__interrupt void EXTIB9_IRQHandler(void)
+//{
+//    INTOFF
+//    BuntuOpen();
+//    INTEN
+//    return;
+//}
+//
+//#pragma vector=18
+//__interrupt void EXTIB10_IRQHandler(void)
+//{
+//    INTOFF
+//    BuntuOpen();
+//    INTEN
+//    return;
+//}
+//
+//#pragma vector=19
+//__interrupt void EXTIB11_IRQHandler(void)
+//{
+//    INTOFF
+//    BuntuOpen();
+//    INTEN
+//    return;
+//}
+//
+//#pragma vector=20
+//__interrupt void EXTIB12_IRQHandler(void)
+//{
+//    INTOFF
+//    BuntuOpen();
+//    INTEN
+//    return;
+//}
+//
+//#pragma vector=21
+//__interrupt void EXTIB13_IRQHandler(void)
+//{
+//    INTOFF
+//    BuntuOpen();
+//    INTEN
+//    return;
+//}
+//
+//#pragma vector=22
+//__interrupt void EXTIB14_IRQHandler(void)
+//{
+//    INTOFF
+//    BuntuOpen();
+//    INTEN
+//    return;
+//}
 

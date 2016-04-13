@@ -2,189 +2,75 @@
 
 <project>
   <fileVersion>2</fileVersion>
-  <fileChecksum>1675621371</fileChecksum>
+  <fileChecksum>2338129705</fileChecksum>
   <configuration>
     <name>Debug</name>
     <outputs>
-      <file>$PROJ_DIR$\Debug\Obj\Led.pbi</file>
       <file>$PROJ_DIR$\buntu.c</file>
-      <file>$PROJ_DIR$\Debug\Obj\Eeprom.o</file>
-      <file>$PROJ_DIR$\Eeprom.h</file>
-      <file>$PROJ_DIR$\Debug\Obj\Time.pbi</file>
-      <file>$TOOLKIT_DIR$\config\lnkstm8l101f3.icf</file>
-      <file>$PROJ_DIR$\Menu.c</file>
-      <file>$PROJ_DIR$\Led.c</file>
-      <file>$PROJ_DIR$\Sys.c</file>
-      <file>$PROJ_DIR$\Debug\Obj\main.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\Delay.o</file>
-      <file>$TOOLKIT_DIR$\lib\dlstm8smn.a</file>
-      <file>$PROJ_DIR$\Debug\Obj\Sys.o</file>
-      <file>$PROJ_DIR$\Com.h</file>
-      <file>$PROJ_DIR$\Sys.h</file>
-      <file>$PROJ_DIR$\Debug\Obj\Com.o</file>
-      <file>$PROJ_DIR$\Time.h</file>
-      <file>$TOOLKIT_DIR$\lib\dbgstm8smd.a</file>
-      <file>$TOOLKIT_DIR$\inc\io_macros.h</file>
-      <file>$PROJ_DIR$\Com.c</file>
-      <file>$PROJ_DIR$\Delay.c</file>
       <file>$PROJ_DIR$\Eeprom.c</file>
-      <file>$PROJ_DIR$\main.c</file>
+      <file>$PROJ_DIR$\Led.c</file>
+      <file>$PROJ_DIR$\Menu.c</file>
+      <file>$PROJ_DIR$\Com.c</file>
+      <file>$PROJ_DIR$\Sys.c</file>
+      <file>$PROJ_DIR$\Delay.c</file>
       <file>$PROJ_DIR$\Time.c</file>
-      <file>$PROJ_DIR$\Debug\Obj\Time.o</file>
-      <file>$TOOLKIT_DIR$\inc\iostm8l101f3.h</file>
-      <file>$PROJ_DIR$\buntu.h</file>
-      <file>$PROJ_DIR$\Debug\Obj\Menu.o</file>
-      <file>$PROJ_DIR$\Delay.h</file>
-      <file>$PROJ_DIR$\Debug\Obj\main.o</file>
-      <file>$PROJ_DIR$\Led.h</file>
-      <file>$PROJ_DIR$\Debug\Obj\Com.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\Delay.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\Eds_Watch_Mini.pbd</file>
-      <file>$PROJ_DIR$\Debug\Obj\Led.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\Eeprom.pbi</file>
-      <file>$PROJ_DIR$\Menu.h</file>
+      <file>$PROJ_DIR$\main.c</file>
       <file>$PROJ_DIR$\Debug\Obj\buntu.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\Menu.pbi</file>
-      <file>$PROJ_DIR$\Type.h</file>
       <file>$PROJ_DIR$\Debug\Exe\templproj.out</file>
-      <file>$PROJ_DIR$\Debug\Obj\Sys.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\Com.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\main.o</file>
+      <file>$PROJ_DIR$\Type.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\Delay.pbi</file>
+      <file>$TOOLKIT_DIR$\lib\dlstm8smn.a</file>
+      <file>$PROJ_DIR$\Menu.h</file>
+      <file>$PROJ_DIR$\Sys.h</file>
+      <file>$TOOLKIT_DIR$\config\lnkstm8l101f3.icf</file>
+      <file>$PROJ_DIR$\Debug\Obj\Menu.o</file>
+      <file>$PROJ_DIR$\buntu.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\Led.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\Menu.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\Eeprom.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\main.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\Led.o</file>
+      <file>$PROJ_DIR$\Time.h</file>
+      <file>$PROJ_DIR$\Com.h</file>
+      <file>$TOOLKIT_DIR$\inc\io_macros.h</file>
+      <file>$PROJ_DIR$\Led.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\Eds_Watch_Mini.pbd</file>
+      <file>$TOOLKIT_DIR$\lib\dbgstm8smd.a</file>
       <file>$PROJ_DIR$\Debug\Obj\buntu.pbi</file>
+      <file>$TOOLKIT_DIR$\inc\iostm8l101f3.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\Com.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\Time.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\Sys.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\Eeprom.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\Delay.o</file>
+      <file>$PROJ_DIR$\Eeprom.h</file>
+      <file>$PROJ_DIR$\Delay.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\Time.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\Sys.o</file>
+      <file>$PROJ_DIR$\Debug\Exe\Eds_Watch_Mini.hex</file>
     </outputs>
     <file>
       <name>$PROJ_DIR$\buntu.c</name>
       <outputs>
         <tool>
-          <name>BICOMP</name>
-          <file> 42</file>
-        </tool>
-        <tool>
           <name>ICCSTM8</name>
-          <file> 37</file>
+          <file> 9</file>
         </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 26 39 25 18 28</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 26 39 25 18 28</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\Menu.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 38</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 27</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 36 39 25 18 30 13</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 36 39 25 18 30 13</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\Led.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 0</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 34</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 30 39 25 18</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 30 39 25 18</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\Sys.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 41</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 12</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 14 39 25 18 28</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 14 39 25 18 28</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\Com.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 31</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 15</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 13 39 25 18 28</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 13 39 25 18 28</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\Delay.c</name>
-      <outputs>
         <tool>
           <name>BICOMP</name>
           <file> 32</file>
         </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 10</file>
-        </tool>
       </outputs>
       <inputs>
         <tool>
-          <name>BICOMP</name>
-          <file> 28 39 25 18</file>
+          <name>ICCSTM8</name>
+          <file> 20 13 33 28 40 26</file>
         </tool>
         <tool>
-          <name>ICCSTM8</name>
-          <file> 28 39 25 18</file>
+          <name>BICOMP</name>
+          <file> 20 13 33 28 40 26</file>
         </tool>
       </inputs>
     </file>
@@ -192,45 +78,137 @@
       <name>$PROJ_DIR$\Eeprom.c</name>
       <outputs>
         <tool>
-          <name>BICOMP</name>
-          <file> 35</file>
+          <name>ICCSTM8</name>
+          <file> 23</file>
         </tool>
         <tool>
-          <name>ICCSTM8</name>
-          <file> 2</file>
+          <name>BICOMP</name>
+          <file> 37</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
-          <name>BICOMP</name>
-          <file> 3 39 25 18</file>
+          <name>ICCSTM8</name>
+          <file> 39 13 33 28</file>
         </tool>
         <tool>
-          <name>ICCSTM8</name>
-          <file> 3 39 25 18</file>
+          <name>BICOMP</name>
+          <file> 39 13 33 28</file>
         </tool>
       </inputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\main.c</name>
+      <name>$PROJ_DIR$\Led.c</name>
       <outputs>
         <tool>
-          <name>BICOMP</name>
-          <file> 9</file>
+          <name>ICCSTM8</name>
+          <file> 25</file>
         </tool>
         <tool>
-          <name>ICCSTM8</name>
-          <file> 29</file>
+          <name>BICOMP</name>
+          <file> 21</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
-          <name>BICOMP</name>
-          <file> 3 39 25 18 13 14 26 30 36 16</file>
+          <name>ICCSTM8</name>
+          <file> 29 13 33 28</file>
         </tool>
         <tool>
+          <name>BICOMP</name>
+          <file> 29 13 33 28</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Menu.c</name>
+      <outputs>
+        <tool>
           <name>ICCSTM8</name>
-          <file> 3 39 25 18 13 14 26 30 36 16</file>
+          <file> 19</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 22</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCSTM8</name>
+          <file> 16 13 33 28 29 27</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 16 13 33 28 29 27</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Com.c</name>
+      <outputs>
+        <tool>
+          <name>ICCSTM8</name>
+          <file> 11</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 34</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCSTM8</name>
+          <file> 27 13 33 28 40</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 27 13 33 28 40</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Sys.c</name>
+      <outputs>
+        <tool>
+          <name>ICCSTM8</name>
+          <file> 42</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 36</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCSTM8</name>
+          <file> 17 13 33 28 40</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 17 13 33 28 40</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Delay.c</name>
+      <outputs>
+        <tool>
+          <name>ICCSTM8</name>
+          <file> 38</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 14</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCSTM8</name>
+          <file> 40 13 33 28</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 40 13 33 28</file>
         </tool>
       </inputs>
     </file>
@@ -238,31 +216,60 @@
       <name>$PROJ_DIR$\Time.c</name>
       <outputs>
         <tool>
-          <name>BICOMP</name>
-          <file> 4</file>
+          <name>ICCSTM8</name>
+          <file> 35</file>
         </tool>
         <tool>
+          <name>BICOMP</name>
+          <file> 41</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
           <name>ICCSTM8</name>
+          <file> 26 13 33 28</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 26 13 33 28</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\main.c</name>
+      <outputs>
+        <tool>
+          <name>ICCSTM8</name>
+          <file> 12</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
           <file> 24</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
-          <name>BICOMP</name>
-          <file> 16 39 25 18</file>
+          <name>ICCSTM8</name>
+          <file> 39 13 33 28 27 17 20 29 16 26</file>
         </tool>
         <tool>
-          <name>ICCSTM8</name>
-          <file> 16 39 25 18</file>
+          <name>BICOMP</name>
+          <file> 39 13 33 28 27 17 20 29 16 26</file>
         </tool>
       </inputs>
     </file>
     <file>
       <name>$PROJ_DIR$\Debug\Exe\templproj.out</name>
+      <outputs>
+        <tool>
+          <name>OBJCOPY</name>
+          <file> 43</file>
+        </tool>
+      </outputs>
       <inputs>
         <tool>
           <name>ILINK</name>
-          <file> 5 15 10 2 34 27 12 24 37 29 11 17</file>
+          <file> 18 11 38 23 25 19 42 35 9 12 15 31</file>
         </tool>
       </inputs>
     </file>
@@ -271,7 +278,7 @@
       <outputs>
         <tool>
           <name>ILINK</name>
-          <file> 40</file>
+          <file> 10</file>
         </tool>
       </outputs>
     </file>
@@ -282,6 +289,9 @@
     <forcedrebuild>
       <name>[MULTI_TOOL]</name>
       <tool>ILINK</tool>
+    </forcedrebuild>
+    <forcedrebuild>
+      <name>[REBUILD_ALL]</name>
     </forcedrebuild>
   </configuration>
 </project>

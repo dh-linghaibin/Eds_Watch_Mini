@@ -30,7 +30,7 @@ typedef struct DataNode
 * 作    者: by lhb_steven
 * 日    期: 2016/3/17
 ************************************************************************************************************/ 
-tDataNode menu;
+static tDataNode menu;
 /**********************************************函数定义***************************************************** 
 * 函数名称: void MenuInit(void) 
 * 输入参数: void 
@@ -42,6 +42,17 @@ tDataNode menu;
 void MenuInit(void) { 
     menu.mode = 0x00;
     menu.continuous = 0x00;
+}
+/**********************************************函数定义***************************************************** 
+* 函数名称: u8 MenuGetMode(void) 
+* 输入参数: void 
+* 返回参数: u8  
+* 功    能: 模式状态  
+* 作    者: by lhb_steven
+* 日    期: 2016/3/26
+************************************************************************************************************/ 
+u8 MenuGetMode(void) { 
+    return menu.mode;
 }
 /**********************************************函数定义***************************************************** 
 * 函数名称: void MenuModeSet(u8 cmd) 
@@ -142,9 +153,11 @@ void MenuModeSet(u8 cmd) {
         } else if(menu.mode == 2) {//设置后拨微调档位值
             menu.mode = 0;
             LedSetPower(0);
+            ComSendCmdWatch(front,set_inti,0x00,0x00);
         } else if(menu.mode == 3) {//设置前拨微调档位值
             menu.mode = 0;
             LedSetPower(0);
+            ComSendCmdWatch(behind,set_inti,0x00,0x00);
         }
         LedSetModeFlicker(1);
         break;
@@ -162,7 +175,7 @@ void MenuModeSet(u8 cmd) {
 ************************************************************************************************************/ 
 void MenuServiceTime(void) { 
     static u16 time_count = 0;
-    if(time_count < 50000) {
+    if(time_count < 10000) {
         time_count++;
     } else {
         time_count = 0;
