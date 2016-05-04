@@ -170,6 +170,10 @@ void BuntuInit(void) {
     EXTI_SetPinSensitivity(EXTI_Pin_7,EXTI_Trigger_Falling); 
 }
 
+void WWDG_Init(u8 Counter, u8 WindowValue){
+    WWDG_CR = 0x10;
+}
+
 /**********************************************函数定义***************************************************** 
 * 函数名称: u8 BuntuRead(void) 
 * 输入参数: void 
@@ -190,7 +194,9 @@ u8 BuntuRead(void) {
     static u8 count_small4 = 0;
     static u8 count_small5 = 0;
     static u8 mode_count = 0;//模式
+    static u8 teae_flag = 0;//后拨组合标志
     if(BUNTU_REAR1 == 0) {//后拨按钮1
+        TimerSetSec(0);//清楚按键状态
         if(count_small1 < 30) {
             count_small1++;
         } else {
@@ -198,10 +204,17 @@ u8 BuntuRead(void) {
             if(count1 < 3000) {
                 count1++;
             }
+            /*
+            if(count1 == 50) {
+                if(count2 == 0) {
+                    teae_flag = 1;//指示这个按键是被按下过的
+                }
+            }*/
             if(count1 == 2000) {
                 //长按进入
                 if(count2 > 1500) {//两颗按键要同时按下才有效
                     if(mode_count == 0) {//未进入一起按下的模式
+                        teae_flag = 0;
                         return 0x01;
                     }
                 }
@@ -209,10 +222,11 @@ u8 BuntuRead(void) {
         }
     } else {
         if( (count1 > 50)&&(count1 < 1500) ) {
-            count1 = 0;
+            //count1 = 0;
             //return 0x11;
         } else if(count1 > 1500) {//只要有一颗松开就结束
             count1 = 0;
+            teae_flag = 0;//清楚标志
             return 0x21;
         }
         count_small1 = 0;
@@ -220,6 +234,7 @@ u8 BuntuRead(void) {
     }
     
     if(BUNTU_REAR2 == 0) {//后拨按钮2   
+        TimerSetSec(0);//清楚按键状态
         if(count_small2 < 30) {
             count_small2++;
         } else {
@@ -231,6 +246,7 @@ u8 BuntuRead(void) {
                 //长按进入
                 if(count1 == 0) {//小的按键不能按下
                     if(mode_count == 0) {//未进入一起按下的模式
+                        teae_flag = 0;
                         return 0x02;    
                     }
                 }
@@ -239,15 +255,18 @@ u8 BuntuRead(void) {
     } else {
         //组合 后拨 按键 检测
         if(mode_count == 0) {
-            if( ( (count1 > 50)&&(count1 < 1500) ) && ( (count2 > 50)&&(count2 < 1500) ) ) {
+            if( ( ( (count1 > 50)&&(count1 < 3000) ) || (teae_flag == 1) ) && ( (count2 > 50)&&(count2 < 1500) ) ) {
                 count1 = 0;
                 count2 = 0;
+                teae_flag = 0;
                 return 0x11;
             } else if( (count2 > 50)&&(count2 < 1500) ) {//后拨快速放开
                 count2 = 0;
+                teae_flag = 0;
                 return 0x12;
             } else if(count2 > 2000) {
                 count2 = 0;
+                teae_flag = 0;
                 return 0x22;
             }
         }
@@ -256,6 +275,7 @@ u8 BuntuRead(void) {
     }
     
     if(BUNTU_BEHIND1 == 0) {//前拨按钮1
+        TimerSetSec(0);//清楚按键状态
         if(count_small3 < 30) {
             count_small3++;
         } else {
@@ -283,6 +303,7 @@ u8 BuntuRead(void) {
     } 
     
     if(BUNTU_BEHIND2 == 0) {//前拨按钮2
+        TimerSetSec(0);//清楚按键状态
         if(count_small4 < 30) {
             count_small4++;
         } else {
@@ -301,6 +322,7 @@ u8 BuntuRead(void) {
     }
     
     if(BUNTU_MODE == 0) {//模式按键
+        TimerSetSec(0);//清楚按键状态
         if(count_small5 < 30) {
             count_small5++;
         } else {

@@ -25,9 +25,9 @@ void TimerInit(void) {
     TIM4_CR1 = 0x01;
 }
 
-static u8 sec_flag = 0;
+static u16 sec_flag = 0;
 
-u8 TimerGetSec(void) {
+u16 TimerGetSec(void) {
     return sec_flag;
 }
 

@@ -20,6 +20,7 @@
 #include "Led.h"
 #include "Menu.h"
 #include "Time.h"
+#include "Delay.h"
 
 int main( void )
 {
@@ -30,9 +31,10 @@ int main( void )
     MenuInit();
     ComInit();
     TimerInit();
+    DelayMs(500);//等待系统上电稳定
     INTEN
     while(1) {
-        if(TimerGetSec() > 50) {
+        if(TimerGetSec() > 3600) {
             TimerSetSec(0);
             BuntuSleep();
         }

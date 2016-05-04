@@ -5,7 +5,7 @@
 #include "Type.h"
 
 void TimerInit(void);
-u8 TimerGetSec(void);
+u16 TimerGetSec(void);
 void TimerSetSec(u8 data);
 
 #endif
